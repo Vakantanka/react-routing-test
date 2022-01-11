@@ -1,0 +1,12 @@
+form {
+    margin: 0 auto;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+label, input, button {
+    display: block;
+    margin: 6px;
+    padding: 6px;
+}
