@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
 import "./bookingform.css";
-    
+
+const createActualDatetime = () => {
+  const today = new Date();
+  let day = today.getDate();
+  let month = today.getMonth() + 1;
+  let year = today.getFullYear();
+  let hour = today.getHours() + 1;
+  let minute = today.getMinutes();
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+  if (hour < 10) hour = "0" + hour;
+  if (minute < 10) minute = "0" + minute;
+  return year + "-" + month + "-" + day + " " + hour + ":" + minute;
+}
+
 class BookingForm extends Component {
     constructor(props) {
         super(props);
-        let date = new Date();
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-        let hour = date.getHours() + 1;
-        let minutes = date.getMinutes();
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-        let today = year + "-" + month + "-" + day;
-        if (hour < 10) hour = "0" + hour;
-        if (minutes < 10) minutes = "0" + minutes;
-        let time = hour + ":" + minutes;
+        let todayString = createActualDatetime().slice(0,10);
+        let timeString = createActualDatetime().slice(11);
         this.state = {
           name: '',
           email: '',
-          date: today,
-          appt: time,
+          date: todayString,
+          appt: timeString,
           time: 1,
           seats: 2,
           errors: {
@@ -36,31 +40,14 @@ class BookingForm extends Component {
 
     validateDate(date) {
       let answer = false;
-      const today = new Date();
-      let day = today.getDate();
-      let month = today.getMonth() + 1;
-      let year = today.getFullYear();
-      if (month < 10) month = "0" + month;
-      if (day < 10) day = "0" + day;
-      let todayString = year + "-" + month + "-" + day;
-      answer = todayString <= date ? true : false;
+      answer = createActualDatetime().slice(0,10) <= date ? true : false;
       return answer;
     }
 
     validateAppt(appt) {
       let answer = false;
-      const today = new Date();
-      let day = today.getDate();
-      let month = today.getMonth() + 1;
-      let year = today.getFullYear();
-      let hour = today.getHours() + 1;
-      let minutes = today.getMinutes();
-      if (month < 10) month = "0" + month;
-      if (day < 10) day = "0" + day;
-      if (hour < 10) hour = "0" + hour;
-      if (minutes < 10) minutes = "0" + minutes;
-      let todayString = year + "-" + month + "-" + day;
-      let timeString = hour + ":" + minutes;
+      let todayString = createActualDatetime().slice(0,10);
+      let timeString = createActualDatetime().slice(11);
       answer = todayString < this.state.date ? true : false;
       answer = !answer && appt < timeString ? false : true;
       return answer;
@@ -75,7 +62,7 @@ class BookingForm extends Component {
       
         switch (name) {
           case 'name': 
-            errors.name = value.length > 3 ? '' : 'A név hossza minimum 3 karakter legyen!';
+            errors.name = value.length >= 3 ? '' : 'A név hossza minimum 3 karakter legyen!';
             break;
           case 'email': 
             errors.email = regex.test(value) ? '' : 'Érvénytelen email cím!';
