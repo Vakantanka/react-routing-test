@@ -8,14 +8,19 @@ class BookingForm extends Component {
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear();
+        let hour = date.getHours() + 1;
+        let minutes = date.getMinutes();
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
         let today = year + "-" + month + "-" + day;
+        if (hour < 10) hour = "0" + hour;
+        if (minutes < 10) minutes = "0" + minutes;
+        let time = hour + ":" + minutes;
         this.state = {
           name: '',
           email: '',
           date: today,
-          appt: "11:00",
+          appt: time,
           time: 1,
           seats: 2,
           errors: {
@@ -82,10 +87,10 @@ class BookingForm extends Component {
             errors.appt = this.validateAppt(value) ? '' : 'Érvénytelen foglalási idő! (A foglalásnak minimum az aktuális időpont utáni egy órával kell kezdődnie.)';
             break;
           case 'time': 
-            errors.time = value > 1 && value < 8 ? '' : 'Érvénytelen időtartam! (minimum 1, maximum 8 óra)';
+            errors.time = value >= 1 && value <= 8 ? '' : 'Érvénytelen időtartam! (minimum 1, maximum 8 óra)';
             break;
           case 'seats': 
-            errors.seats = value > 1 && value < 20  ? '' : 'Érvénytelen foglalás! (minimum 1, maximum 20 helyet foglalhat)';
+            errors.seats = value >= 1 && value <= 20  ? '' : 'Érvénytelen foglalás! (minimum 1, maximum 20 helyet foglalhat)';
             break;
           default:
             break;
