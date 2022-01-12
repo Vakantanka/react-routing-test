@@ -49,14 +49,15 @@ class BookingForm extends Component {
       let month = today.getMonth() + 1;
       let year = today.getFullYear();
       let hour = today.getHours() + 1;
+      let minutes = today.getMinutes();
       if (month < 10) month = "0" + month;
       if (day < 10) day = "0" + day;
       if (hour < 10) hour = "0" + hour;
+      if (minutes < 10) minutes = "0" + minutes;
       let todayString = year + "-" + month + "-" + day;
-      let hourString = hour + ":00";
+      let timeString = hour + ":" + minutes;
       answer = todayString < this.state.date ? true : false;
-      answer = !answer && appt < hourString ? false : true;
-      console.log(hourString); 
+      answer = !answer && appt < timeString ? false : true;
       return answer;
     }
 
